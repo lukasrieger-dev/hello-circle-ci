@@ -17,7 +17,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - print_pipeline_id:
-          id: ${CIRCLE_WORKFLOW_ID}
+          id: << pipeline.id >>
       - run: echo "Hello World!" > ~/output.txt
       - persist_to_workspace:
           root: ~/
@@ -32,6 +32,16 @@ jobs:
           at: ~/
       - run: cat ~/output.txt
 
+  catch_fail:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: return 1
+      - run:
+          name: Print error infos
+          command:  echo "TEST FAIL MESSAGE!"
+          when: on_fail
+
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
@@ -42,3 +52,7 @@ workflows:
       - print_output_file:
           requires:
             - save_hello_world_output
+
+      - catch_fail:
+          requires:
+            - print_output_file
