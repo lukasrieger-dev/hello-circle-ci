@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: echo "Hello World!" > output.txt
       - persist_to_workspace:
-          root: /out
+          root: /
           paths:
             - .
 
