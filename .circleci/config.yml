@@ -41,8 +41,9 @@ jobs:
           name: create infrastructure
           command: |
             aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name my-stack
+              --template-file network.yml \
+              --stack-name infrastructure \
+              --parameters network-parameters.json
 
   catch_fail:
     docker:
