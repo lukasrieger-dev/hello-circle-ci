@@ -1,19 +1,9 @@
 Resources:
-  Ec2Instance:
-    Type: 'AWS::EC2::Instance'
+  VPC:
+    Type: AWS::EC2::VPC
     Properties:
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      KeyName: ec2keys
-      ImageId: 'ami-0bd39c806c2335b95'
-      SubnetId: 'subnet-0d12bb5471053fb90'
-      
-  InstanceSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Enable SSH access via port 22
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: CircleCI-deployed
