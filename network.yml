@@ -5,6 +5,7 @@ Parameters:
   EnvironmentName:
     Description: An environment name
     Type: String
+    Default: CircleCI-Test
   
   VpcCIDR:
     Description: The ip range in CIDR notation
@@ -14,10 +15,12 @@ Parameters:
   Subnet1CIDR:
     Description: The ip range in CIDR notation for the public subnet 1
     Type: String
+    Default: 10.0.0.0/24
 
   Subnet2CIDR:
     Description: The ip range in CIDR notation for the public subnet 2
     Type: String
+    Default: 10.0.0.0/24
 
 Resources:
   VPC:
