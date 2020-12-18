@@ -43,7 +43,7 @@ jobs:
             aws cloudformation deploy \
               --template-file network.yml \
               --stack-name infrastructure \
-              --parameters network-parameters.json
+              --parameters-file network-parameters.json
 
   catch_fail:
     docker:
