@@ -28,7 +28,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      KeyName: ec2keys
+      KeyName: udacity
       SecurityGroupIds: 
         - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
