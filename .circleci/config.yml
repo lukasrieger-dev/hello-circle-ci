@@ -103,6 +103,8 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook -i ~/inventory.txt playbook.yml
+          environment:
+            ANSIBLE_HOST_KEY_CHECKING: false
 
   smoke_test:
     docker:
