@@ -76,7 +76,7 @@ jobs:
 
   create_inventory_file:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       - run: echo "[all]" > ~/inventory.txt
       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
@@ -128,12 +128,12 @@ workflows:
   deploy:
     jobs:
       #- create_infrastructure
-      - create_ec2instance #:
+      #- create_ec2instance #:
           #requires:
             #- create_infrastructure
-      - create_inventory_file:
-          requires:
-            - create_ec2instance
+      - create_inventory_file #:
+          #requires:
+            #- create_ec2instance
       - configure_infrastructure:
           requires:
             - create_inventory_file
