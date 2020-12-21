@@ -61,7 +61,7 @@ jobs:
               --stack-name infrastructure \
               --template-file infrastructure.yml
 
-  create_ec2_instance:
+  create_ec2instance:
     docker:
       - image: amazon/aws-cli
     steps:
