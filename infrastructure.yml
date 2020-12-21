@@ -22,7 +22,6 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCIDR
-      InstanceTenancy: default
       EnableDnsHostnames: true
       Tags:
         - Key: Name
