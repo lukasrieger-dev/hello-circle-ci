@@ -29,7 +29,7 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       KeyName: ec2keys
-      SecurityGroups: 
+      SecurityGroupIds: 
         - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
       ImageId: 'ami-0502e817a62226e03'
