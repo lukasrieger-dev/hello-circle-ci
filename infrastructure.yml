@@ -86,7 +86,7 @@ Resources:
       KeyName: ec2keys
       SecurityGroupIds: 
         - !GetAtt InstanceSecurityGroup.GroupId
-      ImageId: 'ami-068663a3c619dd892'
+      ImageId: 'ami-0a91cd140a1fc148a'
 
 
 
