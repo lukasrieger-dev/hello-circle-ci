@@ -77,20 +77,22 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > tmp.txt
-      - run: export SERVER_IP=`cat tmp.txt`   
-    environment:
-      SERVER_IP: ${SERVER_IP}
+      - run: echo "[all]" > inventory.txt
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt  
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - inventory.txt
 
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
     steps:
+      - attach_workspace:
+          at: ~/
       - checkout
       - add_ssh_keys:
           fingerprints: [64:1b:eb:b0:04:d2:f5:7c:69:1e:cf:a5:03:e5:d5:f4]
-      - run: echo "[all]" > inventory.txt
-      - run: echo ${SERVER_IP} >> inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -98,7 +100,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt playbook.yml
+            ansible-playbook -i ~/inventory.txt playbook.yml
 
   smoke_test:
     docker:
