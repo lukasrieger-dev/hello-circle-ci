@@ -29,10 +29,10 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       KeyName: ec2keys
-      #SecurityGroups: 
-       # - !Ref InstanceSecurityGroup
+      SecurityGroups: 
+        - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
       ImageId: 'ami-0a91cd140a1fc148a'
-      SubnetId:
-        Fn::ImportValue:
-          !Sub '${EnvironmentName}-SUBNET'
+      #SubnetId:
+        #Fn::ImportValue:
+          #!Sub '${EnvironmentName}-SUBNET'
