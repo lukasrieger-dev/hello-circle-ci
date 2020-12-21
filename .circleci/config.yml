@@ -76,8 +76,11 @@ jobs:
   create_inventory_file:
     docker:
       - image: amazon/aws-cli
+    steps:
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > tmp.txt
+      - run: export SERVER_IP=`cat tmp.txt`   
     environment:
-      SERVER_IP: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+      SERVER_IP: ${SERVER_IP}
 
   configure_infrastructure:
     docker:
