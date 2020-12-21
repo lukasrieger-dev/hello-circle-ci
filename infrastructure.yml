@@ -1,5 +1,5 @@
 Description: >
-  Infrastructure deployed by CircleCI
+  Infrastructure for ec2 instance
 
 Parameters:
   EnvironmentName:

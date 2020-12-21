@@ -61,6 +61,19 @@ jobs:
               --stack-name infrastructure \
               --template-file infrastructure.yml
 
+  create_ec2_instance:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: create ec2 instance
+          command: |
+            aws cloudformation deploy \
+              --stack-name ec2instance \
+              --template-file ec2instance.yml
+
+
   create_inventory_file:
     docker:
       - image: circleci/node:13.8.0
@@ -92,7 +105,7 @@ jobs:
 
   smoke_test:
     docker:
-      - image: amazon/aws-cli
+      - image: alpine:latest
     steps:
       - run: apk add --update curl
       - run:
@@ -115,9 +128,12 @@ workflows:
   deploy:
     jobs:
       - create_infrastructure
-     # - configure_infrastructure:
-          #requires:
-           # - create_infrastructure
+      - create_ec2instance:
+          requires:
+            - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_ec2instance
       - smoke_test #:
           #requires:
             #- configure_infrastructure
