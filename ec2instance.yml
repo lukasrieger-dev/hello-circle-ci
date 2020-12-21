@@ -33,6 +33,6 @@ Resources:
         - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
       ImageId: 'ami-0502e817a62226e03'
-      SubnetId:
-        Fn::ImportValue:
-          !Sub '${EnvironmentName}-SUBNET'
+      #SubnetId:
+        #Fn::ImportValue:
+          #!Sub '${EnvironmentName}-SUBNET'
