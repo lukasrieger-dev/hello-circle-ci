@@ -81,10 +81,9 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       SubnetId: !Ref Subnet
-      KeyName: ec2keys.pem
-      SecurityGroups:
+      KeyName: ec2keys
+      SecurityGroupIds:
         - !Ref InstanceSecurityGroup
-      KeyName: udacity
       ImageId: 'ami-0502e817a62226e03'
 
 
