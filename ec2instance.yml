@@ -12,6 +12,9 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Enable incoming traffic
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-VPCID"
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
@@ -29,5 +32,5 @@ Resources:
       SecurityGroups: 
         - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
-      ImageId: 'ami-0502e817a62226e03'
+      ImageId: 'ami-0a91cd140a1fc148a'
       #SubnetId: '${EnvironmentName}-SUBNET'
