@@ -11,6 +11,13 @@ commands:
     steps:
       - run: echo << parameters.id >>
 
+  destroy_environment:
+    steps:
+      - run:
+          name: destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name infrastructure
+
 jobs:
   save_hello_world_output:
     docker:
@@ -99,15 +106,18 @@ jobs:
               echo "Smoke test failed."
               returrn 1
             fi
+      - destroy_environment
+        when: on_fail
+
 
 
 workflows:
   deploy:
     jobs:
       - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+     # - configure_infrastructure:
+          #requires:
+           # - create_infrastructure
       - smoke_test:
           requires:
             - configure_infrastructure
