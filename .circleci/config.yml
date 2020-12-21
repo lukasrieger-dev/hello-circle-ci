@@ -83,6 +83,24 @@ jobs:
           command: |
             ansible-playbook -i ~/inventory.txt playbook.yml
 
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test with curl
+          command: |
+            URL="https://google.com"
+            if curl -s --head ${URL}
+            then
+              return 0
+            else
+              echo "Smoke test failed."
+              returrn 1
+            fi
+
+
 workflows:
   deploy:
     jobs:
@@ -90,3 +108,6 @@ workflows:
       - configure_infrastructure:
           requires:
             - create_infrastructure
+      - smoke_test:
+          requires:
+            - configure_infrastructure
