@@ -63,20 +63,10 @@ Resources:
       AllocationId: !GetAtt NatGatewayEIP.AllocationId
       SubnetId: !Ref Subnet
 
-  Ec2Instance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      KeyName: udacity
-      ImageId: 'ami-0502e817a62226e03'
-
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Enable incoming traffic
-      SubnetId: !Ref Subnet
-      KeyName: ec2keys.pem
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
@@ -86,4 +76,16 @@ Resources:
           FromPort: '3000'
           ToPort: '3000'
           CidrIp: 0.0.0.0/0
+
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SubnetId: !Ref Subnet
+      KeyName: ec2keys.pem
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      KeyName: udacity
+      ImageId: 'ami-0502e817a62226e03'
+
+
 
