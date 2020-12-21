@@ -83,7 +83,7 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       SubnetId: !Ref Subnet
-      KeyName: ec2keys
+      KeyName: udacity
       SecurityGroupIds: 
         - !GetAtt InstanceSecurityGroup.GroupId
       ImageId: 'ami-0a91cd140a1fc148a'
