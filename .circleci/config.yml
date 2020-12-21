@@ -32,6 +32,16 @@ jobs:
           at: ~/
       - run: cat ~/output.txt
 
+  catch_fail:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: return 1
+      - run:
+          name: Print error infos
+          command:  echo "TEST FAIL MESSAGE!"
+          when: on_fail
+
   create_infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -42,17 +52,8 @@ jobs:
           command: |
             aws cloudformation deploy \
               --stack-name infrastructure \
-              --template-file network.yml
+              --template-file infrastructure.yml
 
-  catch_fail:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - run: return 1
-      - run:
-          name: Print error infos
-          command:  echo "TEST FAIL MESSAGE!"
-          when: on_fail
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -72,4 +73,5 @@ jobs:
 workflows:
   deploy:
     jobs:
+      - create_infrastructure
       - configure_infrastructure

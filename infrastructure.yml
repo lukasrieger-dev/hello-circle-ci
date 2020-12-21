@@ -12,15 +12,10 @@ Parameters:
     Type: String
     Default: 10.0.0.0/16
 
-  Subnet1CIDR:
+  SubnetCIDR:
     Description: The ip range in CIDR notation for the public subnet 1
     Type: String
     Default: 10.0.0.0/24
-
-  Subnet2CIDR:
-    Description: The ip range in CIDR notation for the public subnet 2
-    Type: String
-    Default: 10.0.1.0/24
 
 Resources:
   VPC:
@@ -45,48 +40,50 @@ Resources:
       InternetGatewayId: !Ref InternetGateway
       VpcId: !Ref VPC
 
-  Subnet1:
+  Subnet:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: !Ref Subnet1CIDR
+      CidrBlock: !Ref SubnetCIDR
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName} Subnet (AZ1)
+          Value: !Sub ${EnvironmentName} Subnet
 
-  Subnet2:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: !Ref Subnet2CIDR
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName} Subnet (AZ2)
-
-  NatGateway1EIP:
+  NatGatewayEIP:
     Type: AWS::EC2::EIP
     DependsOn: InternetGatewayAttachment
     Properties:
       Domain: vpc
 
-  NatGateway2EIP:
-    Type: AWS::EC2::EIP
-    DependsOn: InternetGatewayAttachment
-    Properties:
-      Domain: vpc
-
-  NatGateway1:
+  NatGateway:
     Type: AWS::EC2::NatGateway
     Properties:
-      AllocationId: !GetAtt NatGateway1EIP.AllocationId
-      SubnetId: !Ref Subnet1
+      AllocationId: !GetAtt NatGatewayEIP.AllocationId
+      SubnetId: !Ref Subnet
 
-  NatGateway2:
-    Type: AWS::EC2::NatGateway
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
     Properties:
-      AllocationId: !GetAtt NatGateway2EIP.AllocationId
-      SubnetId: !Ref Subnet2
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      KeyName: udacity
+      ImageId: 'ami-068663a3c619dd892'
+
+    InstanceSecurityGroup:
+      Type: 'AWS::EC2::SecurityGroup'
+      Properties:
+        GroupDescription: Enable incoming traffic
+        SubnetId: !Ref Subnet
+        KeyName: ec2keys.pem
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: '22'
+            ToPort: '22'
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: '3000'
+            ToPort: '3000'
+            CidrIp: 0.0.0.0/0
+
