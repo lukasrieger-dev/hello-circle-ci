@@ -30,4 +30,4 @@ Resources:
         - !Ref InstanceSecurityGroup
       InstanceType: t2.nano
       ImageId: 'ami-0a91cd140a1fc148a'
-      SubnetId: '${EnvironmentName}-SUBNET'
+      #SubnetId: '${EnvironmentName}-SUBNET'
