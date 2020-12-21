@@ -31,10 +31,3 @@ Resources:
       SecurityGroupIds: 
         - !Ref InstanceSecurityGroup #!GetAtt InstanceSecurityGroup.GroupId
       ImageId: 'ami-0a91cd140a1fc148a'
-      NetworkInterfaces:
-        - AssociatePublicIpAddress: true
-          DeviceIndex: "0"       
-          GroupSet:
-            - !Ref InstanceSecurityGroup
-          SubnetId:
-            Fn::ImportValue: !Sub '${EnvironmentName}-SUBNET' 
