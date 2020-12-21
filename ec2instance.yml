@@ -12,8 +12,6 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Enable incoming traffic
-      VpcId:
-        Fn::ImportValue: !Sub '${EnvironmentName}-VPCID'
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
