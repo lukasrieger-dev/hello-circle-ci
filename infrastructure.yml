@@ -69,21 +69,21 @@ Resources:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       KeyName: udacity
-      ImageId: 'ami-068663a3c619dd892'
+      ImageId: 'ami-0502e817a62226e03'
 
-    InstanceSecurityGroup:
-      Type: 'AWS::EC2::SecurityGroup'
-      Properties:
-        GroupDescription: Enable incoming traffic
-        SubnetId: !Ref Subnet
-        KeyName: ec2keys.pem
-        SecurityGroupIngress:
-          - IpProtocol: tcp
-            FromPort: '22'
-            ToPort: '22'
-            CidrIp: 0.0.0.0/0
-          - IpProtocol: tcp
-            FromPort: '3000'
-            ToPort: '3000'
-            CidrIp: 0.0.0.0/0
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable incoming traffic
+      SubnetId: !Ref Subnet
+      KeyName: ec2keys.pem
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '3000'
+          ToPort: '3000'
+          CidrIp: 0.0.0.0/0
 
