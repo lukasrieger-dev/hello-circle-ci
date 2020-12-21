@@ -82,8 +82,8 @@ Resources:
     Properties:
       SubnetId: !Ref Subnet
       KeyName: ec2keys
-      SecurityGroupIds:
-        - !Ref InstanceSecurityGroup
+      SecurityGroupIds: 
+        - !GetAtt InstanceSecurityGroup.GroupId
       ImageId: 'ami-0502e817a62226e03'
 
 
