@@ -127,13 +127,16 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - create_infrastructure
-      - create_ec2instance:
-          requires:
-            - create_infrastructure
-      - configure_infrastructure:
+      #- create_infrastructure
+      - create_ec2instance #:
+          #requires:
+            #- create_infrastructure
+      - create_inventory_file:
           requires:
             - create_ec2instance
-      - smoke_test #:
-          #requires:
-            #- configure_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_inventory_file
+      - smoke_test:
+          requires:
+            - configure_infrastructure
